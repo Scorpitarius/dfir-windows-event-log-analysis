@@ -1,0 +1,21 @@
+Case ID: DFIR-002
+Examination: Windows Authentication Event Investigation
+
+Examination Window:
+October 31, 2026
+08:50:00 - 09:05:00 (Windows VM local time)
+
+Additional Security Event Query:
+Event ID 4740 - Account Lockout
+Event ID 4776 - NTLM Credential Validation
+
+Query Result:
+No matching events returned from the Windows Security log.
+
+Interpretation:
+No records matching Event IDs 4740 or 4776 were found
+in the examined time window.
+
+Limitation:
+Absence of these events does not establish that the
+underlying activity could not have occurred.

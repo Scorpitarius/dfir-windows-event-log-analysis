@@ -1,0 +1,69 @@
+<#
+Case ID: DFIR-002
+Purpose: Document PowerShell commands used to generate
+         Figures 2 and 3 of the investigation report.
+
+Source: authentication-events-corrected.evtx
+
+Note: Commands were saved during report preparation
+      to support reproducibility.
+#>
+<# PowerShell Script used to output chronological list showing 12 Windows Security events recorded between 08:50 and 09:05 PDT on October 31, 2026, including eleven successful Type 5 service logons and one failed Type 2 interactive logon. Section 5.4 Figure 2 output#>
+
+$CaseRoot = "C:\DFIR-Lab\Case-002"
+
+$Events = Get-WinEvent -Path "$CaseRoot\Evidence\authentication-events-corrected.evtx"
+
+$Timeline = foreach ($Event in $Events) {
+    $Xml = [xml]$Event.ToXml()
+
+    $LogonType = (
+        $Xml.Event.EventData.Data |
+        Where-Object { $_.Name -eq "LogonType" }
+    ).'#text'
+
+    [PSCustomObject]@{
+        TimeCreated = $Event.TimeCreated
+        EventID     = $Event.Id
+        RecordID    = $Event.RecordId
+        LogonType   = $LogonType
+    }
+}
+
+$Timeline |
+    Sort-Object TimeCreated |
+    Format-Table -AutoSize
+
+
+<# Powershell script PowerShell verification results showing that the corrected EVTX export's current SHA-256 hash matches the recorded evidence manifest and that the CSV and EVTX exports contain matching Event Record IDs. Section 5.8 Figure 3 output#>
+
+$CaseRoot = "C:\DFIR-Lab\Case-002"
+
+$EvtxPath = "$CaseRoot\Evidence\authentication-events-corrected.evtx"
+$ManifestPath = "$CaseRoot\Evidence\evidence-manifest.csv"
+
+$CurrentHash = (Get-FileHash $EvtxPath -Algorithm SHA256).Hash
+$RecordedHash = (Import-Csv $ManifestPath).Hash
+
+$CsvIds = @(
+    Import-Csv "$CaseRoot\Exports\authentication-events.csv" |
+        ForEach-Object { [long]$_.RecordId }
+)
+
+$EvtxIds = @(
+    Get-WinEvent -Path $EvtxPath |
+        ForEach-Object { [long]$_.RecordId }
+)
+
+$Differences = @(
+    Compare-Object -ReferenceObject $CsvIds -DifferenceObject $EvtxIds
+)
+
+[PSCustomObject]@{
+    EvidenceFile     = "authentication-events-corrected.evtx"
+    HashAlgorithm    = "SHA256"
+    HashMatch        = ($CurrentHash -eq $RecordedHash)
+    CsvEventCount    = $CsvIds.Count
+    EvtxEventCount   = $EvtxIds.Count
+    RecordIdsMatch   = ($Differences.Count -eq 0)
+} | Format-List
