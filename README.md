@@ -159,22 +159,41 @@ The evidence did not establish repeated password guessing, unauthorized access, 
 The examination demonstrated Windows Security event analysis, structured event interpretation, timeline reconstruction, time-zone normalization, native EVTX preservation, and SHA-256 evidence integrity verification.
 
 
+
 ## Supporting Documentation
 
 ### Investigation Report
 
 [View DFIR-002 Windows Authentication Event Log Investigation Report](Windows_Authentication_Event_Log_Investigation_Report.pdf)
 
-The six-page forensic investigation report includes:
+The six-page forensic investigation report includes the examination objectives, laboratory environment, authentication analysis, timeline reconstruction, evidence integrity verification, three supporting screenshots, findings, and limitations.
 
-- Examination objectives and laboratory environment.
-- Authentication event analysis and timeline reconstruction.
-- Failed interactive logon and service authentication findings.
-- Native EVTX preservation and SHA-256 integrity verification.
-- Three embedded investigation screenshots.
-- Examination limitations and conclusions.
+### Preserved Evidence
 
-### Supporting Artifacts
+| Artifact | Description |
+|---|---|
+| [authentication-events-corrected.evtx](evidence/authentication-events-corrected.evtx) | Native Windows Security event log export containing 12 records. |
+| [evidence-manifest.csv](evidence/evidence-manifest.csv) | Recorded SHA-256 hash of the corrected EVTX evidence. |
 
-Additional evidence exports, integrity records, and examination notes will be added after review.
+### Analysis Exports
+
+| Artifact | Description |
+|---|---|
+| [authentication-events.csv](exports/authentication-events.csv) | Authentication timeline containing eleven successful service logons and one failed interactive logon. |
+| [service-logon-analysis.csv](exports/service-logon-analysis.csv) | Detailed analysis of two successful Type 5 service logons. |
+
+### Examination Notes
+
+| Artifact | Description |
+|---|---|
+| [additional-event-findings.txt](notes/additional-event-findings.txt) | Results of additional searches for account lockout and NTLM credential validation events. |
+| [analysis-and-verification-commands.txt](notes/analysis-and-verification-commands.txt) | PowerShell commands used for timeline reconstruction and evidence verification. |
+
+### Evidence Integrity
+
+The corrected EVTX export was verified against the SHA-256 value recorded in `evidence-manifest.csv`.
+
+The CSV and EVTX exports were also compared using their Event Record IDs during the original investigation.
+
+These artifacts were collected from a controlled Windows 10 laboratory. Hash verification supports the integrity of the exported evidence relative to its recorded hash but does not independently establish the integrity of the original live Security log.
 
