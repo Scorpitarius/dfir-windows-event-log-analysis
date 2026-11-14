@@ -158,6 +158,23 @@ The evidence did not establish repeated password guessing, unauthorized access, 
 
 The examination demonstrated Windows Security event analysis, structured event interpretation, timeline reconstruction, time-zone normalization, native EVTX preservation, and SHA-256 evidence integrity verification.
 
+
 ## Supporting Documentation
 
-The complete investigation report and supporting evidence artifacts will be added after review.
+### Investigation Report
+
+[View DFIR-002 Windows Authentication Event Log Investigation Report](Windows_Authentication_Event_Log_Investigation_Report.pdf)
+
+The six-page forensic investigation report includes:
+
+- Examination objectives and laboratory environment.
+- Authentication event analysis and timeline reconstruction.
+- Failed interactive logon and service authentication findings.
+- Native EVTX preservation and SHA-256 integrity verification.
+- Three embedded investigation screenshots.
+- Examination limitations and conclusions.
+
+### Supporting Artifacts
+
+Additional evidence exports, integrity records, and examination notes will be added after review.
+
