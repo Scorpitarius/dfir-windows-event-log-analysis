@@ -1,0 +1,3 @@
+"RecordId","TimeCreated","LogonType","TargetUserName","TargetDomainName","LogonProcessName","ProcessName"
+"14848","10/31/2026 8:56:09 AM","5","SYSTEM","NT AUTHORITY","Advapi  ","C:\Windows\System32\services.exe"
+"14846","10/31/2026 8:56:09 AM","5","SYSTEM","NT AUTHORITY","Advapi  ","C:\Windows\System32\services.exe"
